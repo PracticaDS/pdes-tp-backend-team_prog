@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon --exec babel-node -- index",
-    "test": "jest --runInBand --watch",
+    "test": "jest",
     "lint": "eslint ./**/*.js"
   },
   "devDependencies": {
