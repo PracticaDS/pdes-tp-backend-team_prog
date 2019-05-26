@@ -1,19 +1,8 @@
 import express from 'express'
 import api from './routes/api'
-import mongoose from 'mongoose'
-import User from './schema/userSchema'
-
-await mongoose.connect(
-  // 'mongodb://localhost/myappdatabase'
-)
+import models, { connectDb } from './schema/models'
 
 const app = express()
-
-const userExample = new User({
-  name: 'user',
-  username: 'juanito',
-  password: 'password'
-})
 
 app.use('/api', api)
 app.get('/', (req, res) => {
