@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["node", "jest"],
+  "plugins": ["babel", "node", "jest"],
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
