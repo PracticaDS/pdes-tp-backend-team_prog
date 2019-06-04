@@ -11,4 +11,6 @@ const nodeSchema = new Schema({
   }],
 })
 
-export default mongoose.model('Node', nodeSchema)
+const NodeBlock = mongoose.model('Node', nodeSchema)
+
+export default NodeBlock

@@ -1,14 +1,20 @@
 import mongoose from 'mongoose'
-import User from './userSchema'
-import NodeBlock  from './nodeSchema'
+import * as Models from './index'
 
 const DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/game'
 
-export const connectDb = () => 
-  mongoose.connect(DATABASE_URL, (err) => {
-    console.log('An error has ocurred trying to connect to: ' + DATABASE_URL)
-  })
+mongoose.connect(DATABASE_URL)
 
-const models = { User, NodeBlock }
+mongoose.connection.on('connected', () => {
+  console.log('Connection established correctly')
+})
 
-export default models
+mongoose.connection.on('error',function (err) {  
+  console.log('Mongoose default connection error: ' + err);
+});
+
+mongoose.connection.on('disconnected',function (err) {  
+  console.log('Mongoose has been disconnected: ' + err);
+});
+
+export default mongoose.connection
