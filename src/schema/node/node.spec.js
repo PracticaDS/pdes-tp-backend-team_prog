@@ -30,18 +30,6 @@ describe('SUITE Node ', () => {
     })
 
   })
-
-
-
-  // it('requesting /api gives a status ok', () => {
-  //   NodeModel.default.create({
-  //     machineId: 'some_machine_id',
-  //     materials: []
-  //   }, (err) => {
-  //     console.log('Error ocurred ' + err)
-  //   })
-  // })
-
 })
 
 

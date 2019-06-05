@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import * as Models from './index'
 
 const DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/game'
 
