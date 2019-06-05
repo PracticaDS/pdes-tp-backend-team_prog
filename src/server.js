@@ -12,7 +12,6 @@ app.get('/', (req, res) => {
 app.set('port', DEFAULT_PORT);
 
 var server = app.listen(app.get('port'), function() {
-  // console.log('Connection information: ' + JSON.stringify(connectionDB, undefined, 2))
   console.log('Express server listening on port ' + server.address().port);
 });
 
