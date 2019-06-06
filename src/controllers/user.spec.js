@@ -20,7 +20,6 @@ describe('Routes for User', () => {
         factories: []
     }}
 
-    // We mock mongo here
     mockingoose(User).toReturn(_user, 'create')
 
     const randomUsername = (Math.random() * 10000).toString()
@@ -31,8 +30,6 @@ describe('Routes for User', () => {
       .then(response => {
         expect(response)
         expect(response.body)
-
-        //Here only expect that `_id` field exists, since mockingoose sets a value and i cant find a way to control it
         expect(response.body.res._id)
         expect(response.body.res.username).toEqual(randomUsername)
         expect(response.body.res.factories).toEqual([])
@@ -40,7 +37,7 @@ describe('Routes for User', () => {
   })
 
   it('GET /user/:userId', async () => {
-    const id = 1
+    const id = '507f191e810c19729de860ea'
     const username = 'bla'
     const user = {
       id,
@@ -48,7 +45,7 @@ describe('Routes for User', () => {
       factories: []
     }
 
-    mockingoose(User).toReturn(user, 'findById')
+    mockingoose(User).toReturn(user, 'findOne')
 
     return request(app)
       .get(`/user/${id}`)
@@ -56,7 +53,7 @@ describe('Routes for User', () => {
       .then(response => {
         expect(response)
         expect(response.body)
-        expect(response.body.res._id).toEqual(id)
+        expect(response.body.res.id).toEqual(id)
         expect(response.body.res.username).toEqual(username)
         expect(response.body.res.factories).toEqual([])
       })
