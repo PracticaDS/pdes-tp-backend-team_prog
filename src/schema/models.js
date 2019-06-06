@@ -1,8 +1,19 @@
 import mongoose from 'mongoose'
-import User from './userSchema'
 
-export const connectDb = () => mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost/game')
+const DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/game'
 
-const models = { User }
+mongoose.connect(DATABASE_URL)
 
-export default models
+mongoose.connection.on('connected', () => {
+  console.log('Connection established correctly')
+})
+
+mongoose.connection.on('error',function (err) {  
+  console.log('Mongoose default connection error: ' + err);
+});
+
+mongoose.connection.on('disconnected',function (err) {  
+  console.log('Mongoose has been disconnected: ' + err);
+});
+
+export default mongoose.connection
