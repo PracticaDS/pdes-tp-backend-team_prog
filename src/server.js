@@ -1,10 +1,14 @@
 import express from 'express'
+import bodyParser from 'body-parser';
 import userRoutes from './routes/user'
 import './schema/models'
 
 const DEFAULT_PORT = process.env.PORT || 8080
 
 const app = express()
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/user', userRoutes)
 
