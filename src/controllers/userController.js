@@ -1,4 +1,4 @@
-import User from '../schema/userSchema'
+import User from '../schema/user/user'
 import connection from '../schema/models'
 
  export const createUser = (req, res) => connection.then(() => {
