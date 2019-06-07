@@ -6,7 +6,7 @@ describe('SUITE User ', () => {
   const user = {
     id: 'id',
     username: 'username',
-    factories: []
+    games: []
   }
   describe('CRUD', () => {
 

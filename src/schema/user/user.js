@@ -4,7 +4,7 @@ import { Types } from '../constants'
 const userSchema = new Schema({
   id: String,
   username: { type: String, required: true, unique: true },
-  factories: [{  type: mongoose.Schema.Types.ObjectId, ref: Types.Factory }],
+  games: [{  type: mongoose.Schema.Types.ObjectId, ref: Types.Game }],
   created_at: Date,
   updated_at: Date
 })
