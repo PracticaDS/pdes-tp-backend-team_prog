@@ -2,12 +2,13 @@ import mockingoose from 'mockingoose'
 
 import NodeBlock from './node';
 import Assert from 'assert';
+import { Types } from '../constants';
 
 describe('SUITE Node ', () => { 
 
   describe('CRUD', () => {
     const node = {
-      machineId: '507f191e810c19729de860ea',
+      machine: '507f191e810c19729de860ea',
       materials: []
     }
 

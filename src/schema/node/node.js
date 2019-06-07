@@ -5,15 +5,13 @@ const { Schema } = mongoose
 
 const nodeSchema = new Schema({
   id: String,
-  machineId: String,
+  machine: { type: Schema.ObjectId, ref: Types.Machine },
   materials: [{
     materielId: String,
     quantity: Number
   }],
   created_at: Date,
   updated_at: Date
-})
+}, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at'}})
 
-const NodeBlock = mongoose.model(Types.Node, nodeSchema)
-
-export default NodeBlock
+export default mongoose.model(Types.Node, nodeSchema)
