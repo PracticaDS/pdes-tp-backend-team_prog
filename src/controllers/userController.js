@@ -45,7 +45,7 @@ export const updateUser = (req, res) => {
 
 export const deleteUser = (req, res) => {
   const { params: { userId }} = req
-  User.findByIdAndRemove(id)
+  User.findByIdAndRemove(userId)
   .then(user => res.status(200).send({
     type: 'Success',
     res: user

@@ -58,4 +58,51 @@ describe('Routes for User', () => {
         expect(response.body.res.factories).toEqual([])
       })
   })
+
+  it('PUT /user/', async () => {
+    const id = '507f191e810c19729de860ea'
+    const username = 'bla'
+    const user = {
+      id,
+      username,
+      factories: []
+    }
+
+    mockingoose(User).toReturn(user, 'findOneAndUpdate')
+
+    return request(app)
+      .put('/user')
+      .send(user)
+      .expect(200)
+      .then(response => {
+        expect(response)
+        expect(response.body)
+        expect(response.body.res.id)
+        expect(response.body.res.username).toEqual(username)
+        expect(response.body.res.factories).toEqual([])
+      })
+  })
+
+  it('DELETE /user/:userId', async () => {
+    const id = '507f191e810c19729de860ea'
+    const username = 'bla'
+    const user = {
+      id,
+      username,
+      factories: []
+    }
+
+    mockingoose(User).toReturn(user, 'findOneAndRemove')
+
+    return request(app)
+      .delete(`/user/${id}`)
+      .expect(200)
+      .then(response => {
+        expect(response)
+        expect(response.body)
+        expect(response.body.res.id).toEqual(id)
+        expect(response.body.res.username).toEqual(username)
+        expect(response.body.res.factories).toEqual([])
+      })
+  })
 })
