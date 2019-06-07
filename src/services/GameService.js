@@ -1,18 +1,18 @@
 import Users from '../schema/user/user'
 import Games from '../schema/game/game'
+import mongoose from 'mongoose'
 
 class GameService {
-  async createGame({ userId }) {
+  async createGame(userId) {
     try {
-      let user = await Users.findById(userId)
+      const userObjectId = mongoose.Types.ObjectId(userId)
+      let user = await Users.find({_id: userObjectId})
   
       if (!user) {
         new Error("Game: user does not exists")
       }
-      const newGame = await Game.create({currency: 0})
-
-      const res = await User.update({ _id: userId}, { $push: { games: newGame._id }})
-
+      const newGame = await Games.create({currency: 0})
+      await Users.update({ _id: userObjectId }, { $push: { games: newGame._id } }, {upsert:true})
       return newGame
     } catch (err) {
       new Error("Game: error in create")
@@ -20,17 +20,39 @@ class GameService {
   }
   async getGame(userId, gameId) {
     try {
-      let user = await Users.findById(userId)
-  
+      const userObjectId = mongoose.Types.ObjectId(userId)
+      let user = await Users.findById(userObjectId)
+
       if (!user) {
         new Error("Game: user does not exists")
       }
-      // const currentGame = user.games.find(g => g._id === gameId)
-
-      const currentGame = await Games.findById(gameId)
+      const gameObjectId = mongoose.Types.ObjectId(gameId)
+      const currentGame = await Games.findById(gameObjectId)
       if (!currentGame) {
         new Error("Game: game does not exists")
       }
+
+      return currentGame
+    } catch (err) {
+      new Error("Game: error in get")
+    }
+  }
+  async deleteGame(userId, gameId) {
+    try {
+      const userObjectId = mongoose.Types.ObjectId(userId)
+      let user = await Users.findById(userObjectId)
+
+      if (!user) {
+        new Error("Game: user does not exists")
+      }
+      const gameObjectId = mongoose.Types.ObjectId(gameId)
+      const currentGame = await Games.findById(gameObjectId)
+      if (!currentGame) {
+        new Error("Game: game does not exists")
+      }
+
+      await Users.update({ _id: userObjectId }, { $pull: { games: gameObjectId }})
+      await Games.deleteOne({ _id: gameObjectId })
 
       return currentGame
     } catch (err) {
