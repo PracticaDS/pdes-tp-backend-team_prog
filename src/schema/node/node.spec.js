@@ -6,23 +6,19 @@ import Assert from 'assert';
 describe('SUITE Node ', () => { 
 
   describe('CRUD', () => {
+    const node = {
+      machineId: '507f191e810c19729de860ea',
+      materials: []
+    }
 
-    it('Can find a node', () => {
-      const _node = {
-        machineId: 'machine_id',
-        materials: []
-      }
-      mockingoose(NodeBlock).toReturn(_node, 'find')
+    it('Can find a Node', () => {
+      mockingoose(NodeBlock).toReturn(node, 'find')
       return NodeBlock.find({}).then(nodes => {
-        expect(JSON.parse(JSON.stringify(nodes))).toMatchObject(_node);
+        expect(JSON.parse(JSON.stringify(nodes))).toMatchObject(node);
       })
     })
 
     it('Find with error', () => {
-      const _node = {
-        machineId: 'machine_id',
-        materials: []
-      }
       mockingoose(NodeBlock).toReturn(new Error('jaskdjaksd'), 'find')
       return NodeBlock.find({}).catch(err => {
         Assert.ok(err)

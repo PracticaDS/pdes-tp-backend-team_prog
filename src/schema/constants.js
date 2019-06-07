@@ -1,5 +1,7 @@
 
 export const Types = {
   User: 'User',
-  Factory: 'Factory'
+  Node: 'Node',
+  Factory: 'Factory',
+  Machine: 'Machine',
 }
