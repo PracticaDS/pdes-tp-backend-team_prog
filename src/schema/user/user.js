@@ -1,8 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
 import { Types } from '../constants'
 
-const { Schema } = mongoose
-
 const userSchema = new Schema({
   id: Schema.Types.ObjectId,
   username: { type: String, required: true, unique: true },
