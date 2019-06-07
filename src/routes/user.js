@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { createUser, getUser, updateUser, deleteUser, login } from '../controllers/userController'
 
-const router = Router()
+const router = Router({mergeParams: true})
 
 router.post('/', createUser)
 router.put('/', updateUser)

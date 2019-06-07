@@ -1,8 +1,11 @@
 import { Router } from 'express'
-import { createGame } from '../controllers/games/games'
+import { createGame, getGame } from '../controllers/games/games'
 
-const router = Router()
+const router = Router({mergeParams: true})
 
+router.get('/:gameId', getGame)
 router.post('/', createGame)
+// router.put('/:gameId', updateGame)
+// router.delete('/:gameId', deleteGame)
 
 export default router

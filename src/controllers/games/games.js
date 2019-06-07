@@ -1,16 +1,33 @@
-import Game from '../../schema/game/game'
+import GameService from '../../services/GameService'
 
-export const createGame = (req, res) => {
-  res.status(200).send('Ok')
-  // const { body: { username } } = req
+export const createGame = async (req, res) => {
+  try {
+    const { userId } = req.params
+    const result = await GameService.createGame(userId)
+    res.status(200).send({
+      type: 'Success',
+      result,
+    })
+  } catch(result) {
+    res.status(400).send({
+      type: 'Error',
+      result,
+    })
+  }
+}
 
-  // User.create({})
-  // .then(res => res.status(200).send({
-  //   type: 'Success',
-  //   res: res
-  // }))
-  // .catch(err => res.status(400).send({
-  //   type: 'Error',
-  //   body: err
-  // }))
+export const getGame = async (req, res) => {
+  try {
+    const { userId, gameId } = req.params
+    const result = await GameService.getGame(userId, gameId)
+    res.status(200).send({
+      type: 'Success',
+      result,
+    })
+  } catch(result) {
+    res.status(400).send({
+      type: 'Error',
+      result,
+    })
+  }
 }
