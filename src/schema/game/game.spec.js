@@ -6,7 +6,7 @@ import { Types } from '../constants';
 describe('SUITE game ', () => { 
   const game = {
     id: '507f191e810c19729de860ea',
-    factoryId: '507f191e810c19729de860e2',
+    factory: '507f191e810c19729de860e2',
     currency: 10000,
   }
 
