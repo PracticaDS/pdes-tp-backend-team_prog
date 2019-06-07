@@ -1,5 +1,6 @@
 import express from 'express'
-import bodyParser from 'body-parser';
+import bodyParser from 'body-parser'
+import cors from 'cors'
 import userRoutes from './routes/user'
 import './schema/models'
 
@@ -9,7 +10,7 @@ const app = express()
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors())
 app.use('/user', userRoutes)
 
 app.get('/', (req, res) => {

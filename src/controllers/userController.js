@@ -1,4 +1,15 @@
 import User from '../schema/user/user'
+import AuthService from '../services/AuthService'
+
+const successResponse = result => ({
+  type: 'Success',
+  result,
+})
+
+const errorResponse = result => ({
+  type: 'Error',
+  result,
+})
 
 export const createUser = (req, res) => {
   const { body: { username } } = req
@@ -54,4 +65,11 @@ export const deleteUser = (req, res) => {
     type: 'Error',
     body: err
   }))
+}
+
+export const login = (req, res) => {
+  const userDTO = req.body
+  AuthService.login(userDTO)
+    .then(user => res.status(200).send(successResponse(user)))
+    .catch(error => res.status(400).send(errorResponse(error)))
 }
