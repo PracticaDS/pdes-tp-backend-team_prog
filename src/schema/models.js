@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import 'mongoose-relationship'
 
 const DATABASE_URL = process.env.DATABASE_URL || 'mongodb://localhost/game'
 
