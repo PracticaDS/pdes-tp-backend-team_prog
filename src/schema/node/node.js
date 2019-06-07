@@ -4,10 +4,10 @@ import { Types } from '../constants'
 const { Schema } = mongoose
 
 const nodeSchema = new Schema({
-  id: String,
-  machine: { type: Schema.ObjectId, ref: Types.Machine },
+  id: Schema.Types.ObjectId,
+  machine: { type: Schema.Types.ObjectId, ref: Types.Machine },
   materials: [{
-    materielId: String,
+    materialId: String,
     quantity: Number
   }],
   created_at: Date,
