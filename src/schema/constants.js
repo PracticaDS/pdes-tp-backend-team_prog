@@ -4,4 +4,5 @@ export const Types = {
   Node: 'Node',
   Factory: 'Factory',
   Machine: 'Machine',
+  Game: 'Game'
 }
