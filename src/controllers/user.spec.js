@@ -17,7 +17,7 @@ describe('Routes for User', () => {
     const _user = (someUsername) => {
       return {
         username: someUsername,
-        factories: []
+        games: []
     }}
 
     mockingoose(User).toReturn(_user, 'create')
@@ -32,7 +32,7 @@ describe('Routes for User', () => {
         expect(response.body)
         expect(response.body.res._id)
         expect(response.body.res.username).toEqual(randomUsername)
-        expect(response.body.res.factories).toEqual([])
+        expect(response.body.res.games).toEqual([])
       })
   })
 
@@ -42,7 +42,7 @@ describe('Routes for User', () => {
     const user = {
       id,
       username,
-      factories: []
+      games: []
     }
 
     mockingoose(User).toReturn(user, 'findOne')
@@ -55,7 +55,7 @@ describe('Routes for User', () => {
         expect(response.body)
         expect(response.body.res.id).toEqual(id)
         expect(response.body.res.username).toEqual(username)
-        expect(response.body.res.factories).toEqual([])
+        expect(response.body.res.games).toEqual([])
       })
   })
 
@@ -65,7 +65,7 @@ describe('Routes for User', () => {
     const user = {
       id,
       username,
-      factories: []
+      games: []
     }
 
     mockingoose(User).toReturn(user, 'findOneAndUpdate')
@@ -79,7 +79,7 @@ describe('Routes for User', () => {
         expect(response.body)
         expect(response.body.res.id)
         expect(response.body.res.username).toEqual(username)
-        expect(response.body.res.factories).toEqual([])
+        expect(response.body.res.games).toEqual([])
       })
   })
 
@@ -89,7 +89,7 @@ describe('Routes for User', () => {
     const user = {
       id,
       username,
-      factories: []
+      games: []
     }
 
     mockingoose(User).toReturn(user, 'findOneAndRemove')
@@ -102,7 +102,7 @@ describe('Routes for User', () => {
         expect(response.body)
         expect(response.body.res.id).toEqual(id)
         expect(response.body.res.username).toEqual(username)
-        expect(response.body.res.factories).toEqual([])
+        expect(response.body.res.games).toEqual([])
       })
   })
 })
