@@ -4,7 +4,7 @@ import { Types } from '../constants'
 const { Schema } = mongoose
 
 const machine = new Schema({
-  id: String,
+  id: Schema.Types.ObjectId,
   machineType: String,
   metadata: Object,
   created_at: Date,

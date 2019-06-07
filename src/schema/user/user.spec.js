@@ -4,7 +4,7 @@ import Assert from 'assert'
 
 describe('SUITE User ', () => { 
   const user = {
-    id: 'id',
+    id: '507f191e810c19729de860ea',
     username: 'username',
     games: []
   }
