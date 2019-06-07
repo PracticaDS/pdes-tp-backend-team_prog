@@ -2,7 +2,7 @@ import mockingoose from 'mockingoose'
 import Machine from './machine'
 import Assert from 'assert'
 
-describe('SUITE User ', () => { 
+describe('SUITE Machine ', () => { 
   const machine = {
     id: '507f191e810c19729de860ea',
     machineType: 'Seller',
