@@ -1,7 +1,5 @@
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 import { Types } from '../constants'
-
-const { Schema } = mongoose
 
 const game = new Schema({
   id: Schema.Types.ObjectId,
