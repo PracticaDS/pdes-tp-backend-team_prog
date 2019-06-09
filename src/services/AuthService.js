@@ -4,10 +4,10 @@ import User from '../schema/user/user'
 class AuthService {
   async login({ username }) {
     try {
-      let user = await User.findOne({ username })
+      let user = await User.findOne({ username }).populate('games')
   
       if (!user) {
-        user = await User.create({ username, factories: [] })
+        user = await User.create({ username })
       }
       return user
     } catch (err) {
