@@ -1,12 +1,14 @@
 import mockingoose from 'mockingoose'
 import Game from './game'
 import Assert from 'assert'
-import { Types } from '../constants';
 
 describe('SUITE game ', () => { 
   const game = {
     id: '507f191e810c19729de860ea',
-    factory: '507f191e810c19729de860e2',
+    factory: {
+      dimensions: {},
+      gridValues: [],
+    },
     currency: 10000,
   }
 

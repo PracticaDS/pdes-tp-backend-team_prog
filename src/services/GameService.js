@@ -59,6 +59,30 @@ class GameService {
       new Error("Game: error in get")
     }
   }
+  async updateGame(userId, gameId, { currency, factory }) {
+    try {
+      const userObjectId = mongoose.Types.ObjectId(userId)
+      let user = await Users.findById(userObjectId)
+
+      if (!user) {
+        new Error("Game: user does not exists")
+      }
+      const gameObjectId = mongoose.Types.ObjectId(gameId)
+      let currentGame = await Games.findById(gameObjectId)
+      if (!currentGame) {
+        new Error("Game: game does not exists")
+      }
+      currentGame.currency = currency
+      currentGame.factory = factory
+      await currentGame.save()
+      currentGame = await Games.findById(gameObjectId)
+
+      return currentGame
+    } catch (err) {
+      console.log(err)
+      new Error("Game: error in get")
+    }
+  }
 
 }
 
