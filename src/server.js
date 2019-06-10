@@ -5,13 +5,15 @@ import userRoutes from './routes/user'
 import gameRoutes from './routes/games'
 
 import './schema/models'
+import { initializeMonitoring } from './monitoring'
 
 const DEFAULT_PORT = process.env.PORT || 8080
+const MONITORING = process.env.MONITORING || false
 
 const app = express()
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 app.use('/user', userRoutes)
 app.use('/users/:userId/games', gameRoutes)
@@ -20,10 +22,14 @@ app.get('/', (req, res) => {
   res.status(200).send('hello')
 })
 
+if (MONITORING) {
+  initializeMonitoring(app)
+}
+
 app.set('port', DEFAULT_PORT);
 
 var server = app.listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + server.address().port);
-});
+  console.log('Express server listening on port ' + server.address().port)
+})
 
 export default app
