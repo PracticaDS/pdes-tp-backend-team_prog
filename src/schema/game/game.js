@@ -3,6 +3,7 @@ import { Types } from '../constants'
 
 const game = new Schema({
   id: Schema.Types.ObjectId,
+  name: String,
   factory: {
     dimensions: { n: Number, m: Number },
     gridValues: [[{

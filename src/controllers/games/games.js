@@ -2,7 +2,8 @@ import GameService from '../../services/GameService'
 
 export const createGame = (req, res) => {
     const { userId } = req.params
-    GameService.createGame(userId)
+    const game = req.body
+    GameService.createGame(userId, game)
       .then(result => {
         res.status(200).send({
           type: 'Success',

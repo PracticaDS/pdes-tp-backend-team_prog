@@ -3,7 +3,7 @@ import Games from '../schema/game/game'
 import mongoose from 'mongoose'
 
 class GameService {
-  async createGame(userId) {
+  async createGame(userId, game) {
     try {
       const userObjectId = mongoose.Types.ObjectId(userId)
       let user = await Users.find({_id: userObjectId})
@@ -11,7 +11,7 @@ class GameService {
       if (!user) {
         new Error("Game: user does not exists")
       }
-      const newGame = await Games.create({currency: 0})
+      const newGame = await Games.create({...game, currency: 0})
       await Users.update({ _id: userObjectId }, { $push: { games: newGame._id } }, {upsert:true})
       return newGame
     } catch (err) {
