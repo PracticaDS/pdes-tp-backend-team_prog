@@ -5,12 +5,10 @@ import userRoutes from './routes/user'
 import gameRoutes from './routes/games'
 
 import './schema/models'
-import { requestCounters } from './monitoring'
-import { responseCounters } from './monitoring'
-import { injectMetricsRoute } from './monitoring'
-import { startCollection } from './monitoring'
+import { initializeMonitoring } from './monitoring'
 
 const DEFAULT_PORT = process.env.PORT || 8080
+const MONITORING = process.env.MONITORING || false
 
 const app = express()
 
@@ -24,12 +22,9 @@ app.get('/', (req, res) => {
   res.status(200).send('hello')
 })
 
-app.use(requestCounters)
-app.use(responseCounters)
-
-injectMetricsRoute(app)
-
-startCollection()
+if (MONITORING) {
+  initializeMonitoring(app)
+}
 
 app.set('port', DEFAULT_PORT);
 

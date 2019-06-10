@@ -1,9 +1,9 @@
 import Prometheus from 'prom-client'
 import ResponseTime from 'response-time'
 
-export const startCollection = () => {
-    console.log("LOG_INFO", `Starting the collection of metrics, the metrics are available on /metrics`)
-    const metricsInterval = Prometheus.collectDefaultMetrics()
+const startCollection = () => {
+  console.log("LOG_INFO", `Starting the collection of metrics, the metrics are available on /metrics`)
+  const metricsInterval = Prometheus.collectDefaultMetrics()
 }
 
 const numOfRequests = new Prometheus.Counter({
@@ -18,7 +18,7 @@ const pathsTaken = new Prometheus.Counter({
   labelNames: ['path']
 })
 
-export const requestCounters = (req, res, next) => {
+const requestCounters = (req, res, next) => {
   if (req.path != '/metrics') {
     numOfRequests.inc({ method: req.method })
     pathsTaken.inc({ path: req.path })
@@ -32,15 +32,22 @@ const responses = new Prometheus.Summary({
   labelNames: ['method', 'path', 'status']
 })
 
-export const responseCounters = ResponseTime((req, res, time) => {
+const responseCounters = ResponseTime((req, res, time) => {
   if(req.url != '/metrics') {
     responses.labels(req.method, req.url, res.statusCode).observe(time)
   }
 })
 
-export const injectMetricsRoute = (App) => {
+const injectMetricsRoute = (App) => {
   App.get('/metrics', (req, res) => {
     res.set('Content-Type', Prometheus.register.contentType)
     res.end(Prometheus.register.metrics())
   })
+}
+
+export const initializeMonitoring = (app) => {
+  app.use(requestCounters)
+  app.use(responseCounters)
+  injectMetricsRoute(app)
+  startCollection()
 }
