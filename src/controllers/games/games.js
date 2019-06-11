@@ -39,9 +39,8 @@ export const deleteGame = async (req, res) => {
   try {
     const { userId, gameId } = req.params
     const result = await GameService.deleteGame(userId, gameId)
-    res.status(200).send({
-      type: 'Success',
-      result,
+    res.status(204).send({
+      type: 'Success'
     })
   } catch(result) {
     console.log(result)
