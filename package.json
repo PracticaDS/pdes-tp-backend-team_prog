@@ -7,7 +7,9 @@
   "scripts": {
     "start": "nodemon --exec babel-node -- src/server",
     "test": "jest",
-    "lint": "eslint ./**/*.js"
+    "lint": "eslint ./**/*.js",
+    "test:load": "artillery run load_testing/game.yml -o load_testing/game-output.json",
+    "test:load:report": "artillery report load_testing/game-output.json"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
@@ -32,9 +34,12 @@
   "dependencies": {
     "@babel/core": "^7.0.0",
     "@babel/runtime": "^7.4.5",
+    "@types/faker": "^4.1.5",
+    "artillery": "^1.6.0-28",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.0",
+    "faker": "^4.1.0",
     "mongodb": "^3.2.6",
     "mongoose": "^5.5.11",
     "mongoose-relationship": "^0.1.5",
