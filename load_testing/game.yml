@@ -1,0 +1,29 @@
+config:
+  target: "http://localhost:8080"
+  phases:
+    - duration: 20
+      arrivalRate: 5
+    - duration: 30
+      arrivalRate: 5
+      rampTo: 50
+    - duration: 40
+      arrivalRate: 50
+  processor: "./generate-data.js"
+scenarios:
+  - name: "game"
+    flow:
+      - function: "generateData"
+      - post:
+          url: "/user/login"
+          json:
+            username: "{{ username }}"
+          capture:
+            json: "$.result._id"
+            as: "userId"
+      - think: 1
+      - loop:
+        - post:
+            url: "/users/{{ userId }}/games"
+            json:
+              name: "{{ game }}"
+          count: 50
