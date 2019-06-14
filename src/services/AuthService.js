@@ -1,13 +1,18 @@
 
 import User from '../schema/user/user'
+import GenericService from './GenericService'
 
-class AuthService {
-  async login({ username }) {
+class AuthService extends GenericService {
+  constructor() {
+    super(User)
+  }
+
+  login = async ({ username }) => {
     try {
-      let user = await User.findOne({ username }).populate('games')
+      let user = await this._model.findOne({ username }, { _id: true, username: true })
   
       if (!user) {
-        user = await User.create({ username })
+        user = await this._model.create({ username })
       }
       return user
     } catch (err) {
@@ -16,6 +21,4 @@ class AuthService {
   }
 }
 
-const singletonAuthService = new AuthService()
-
-export default singletonAuthService
+export default AuthService
