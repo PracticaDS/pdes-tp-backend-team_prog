@@ -1,24 +1,29 @@
 
 import mockingoose from 'mockingoose'
-import express from 'express'
+import express, { Router } from 'express'
 import bodyParser from 'body-parser'
 import request from 'supertest'
 
-import generateGrid from '../utils/gridGenerator'
+import { generateGameMock } from '../utils/gridGenerator'
 
 import User from '../schema/user/user'
 import Game from '../schema/game/game'
-import userRoutes from '../routes/user'
-import gameRoutes from '../routes/games'
+import UserRouter from '../routes/UserRouter'
+import GameRouter from '../routes/GameRouter'
+
+import CustomLogger from '../utils/CustomLogger'
 
 describe('Routes for User', () => {
   const app = express()
+  const userRouter = new UserRouter(Router(), new CustomLogger())
+  const gameRouter = new GameRouter(Router({mergeParams: true}), new CustomLogger())
+
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.use('/user', userRoutes)
-  app.use('/users/:userId/games', gameRoutes)
+  app.use('/users', userRouter.getRoutes())
+  app.use('/users/:userId/games', gameRouter.getRoutes())
 
-  it('POST /user/', async () => {
+  it('POST /users/', async () => {
     const _user = (someUsername) => {
       return {
         username: someUsername,
@@ -29,21 +34,21 @@ describe('Routes for User', () => {
 
     const randomUsername = (Math.random() * 10000).toString()
     return request(app)
-      .post('/user')
+      .post('/users')
       .send({username: randomUsername})
       .expect(200)
       .then(response => {
         expect(response)
         expect(response.body)
-        expect(response.body.res._id)
-        expect(response.body.res.username).toEqual(randomUsername)
-        expect(response.body.res.games).toEqual([])
+        expect(response.body._id)
+        expect(response.body.username).toEqual(randomUsername)
+        expect(response.body.games).toEqual([])
 
         mockingoose.resetAll()
       })
   })
 
-  it('GET /user/:userId', async () => {
+  it('GET /users/:userId', async () => {
     const id = '507f191e810c19729de860ea'
     const username = 'bla'
     const user = {
@@ -55,20 +60,20 @@ describe('Routes for User', () => {
     mockingoose(User).toReturn(user, 'findOne')
 
     return request(app)
-      .get(`/user/${id}`)
+      .get(`/users/${id}`)
       .expect(200)
       .then(response => {
         expect(response)
         expect(response.body)
-        expect(response.body.res.id).toEqual(id)
-        expect(response.body.res.username).toEqual(username)
-        expect(response.body.res.games).toEqual([])
+        expect(response.body.id).toEqual(id)
+        expect(response.body.username).toEqual(username)
+        expect(response.body.games).toEqual([])
 
         mockingoose.resetAll()
       })
   })
 
-  it('PUT /user/', async () => {
+  it('PUT /users/:userId', async () => {
     const id = '507f191e810c19729de860ea'
     const username = 'bla'
     const user = {
@@ -80,21 +85,20 @@ describe('Routes for User', () => {
     mockingoose(User).toReturn(user, 'findOneAndUpdate')
 
     return request(app)
-      .put('/user')
+      .put(`/users/${id}`)
       .send(user)
       .expect(200)
       .then(response => {
-        expect(response)
         expect(response.body)
-        expect(response.body.res.id)
-        expect(response.body.res.username).toEqual(username)
-        expect(response.body.res.games).toEqual([])
+        expect(response.body.id)
+        expect(response.body.username).toEqual(username)
+        expect(response.body.games).toEqual([])
 
         mockingoose.resetAll()
       })
   })
 
-  it('DELETE /user/:userId', async () => {
+  it('DELETE /users/:userId', async () => {
     const id = '507f191e810c19729de860ea'
     const username = 'bla'
     const user = {
@@ -106,21 +110,21 @@ describe('Routes for User', () => {
     mockingoose(User).toReturn(user, 'findOneAndRemove')
 
     return request(app)
-      .delete(`/user/${id}`)
+      .delete(`/users/${id}`)
       .expect(200)
       .then(response => {
         expect(response)
         expect(response.body)
-        expect(response.body.res.id).toEqual(id)
-        expect(response.body.res.username).toEqual(username)
-        expect(response.body.res.games).toEqual([])
+        expect(response.body.id).toEqual(id)
+        expect(response.body.username).toEqual(username)
+        expect(response.body.games).toEqual([])
       })
   })
 
   it('POST /users/:userId/games', async () => {
-    const game = generateGrid('507f191e810c19729de860bb', 'Game 1', 5)
+    const game = generateGameMock('507f191e810c19729de860bb', 'Game 1', 5)
     const user = {
-      _id: '507f191e810c19729de860ea',
+      id: '507f191e810c19729de860ea',
       username: 'bla',
       games: []
     }
@@ -130,24 +134,20 @@ describe('Routes for User', () => {
     mockingoose(User).toReturn(user, 'update')
 
     return request(app)
-      .post(`/users/${user._id}/games`)
+      .post(`/users/${user.id}/games`)
       .send(game)
       .expect(200)
       .then(response => {
-        expect(response)
         expect(response.body)
-        expect(response.body.result._id).toEqual(game._id)
-        expect(response.body.result.name).toEqual(game.name)
+        expect(response.body.id).toEqual(game.id)
+        expect(response.body.name).toEqual(game.name)
 
         mockingoose.resetAll()
-      })
-      .catch(err => {
-        console.error(err)
       })
   })
 
   it('GET /users/:userId/games/:gameId', async () => {
-    const game = generateGrid('507f191e810c19729de860bb', 'Game 1', 2)
+    const game = generateGameMock('507f191e810c19729de860bb', 'Game 1', 2)
     const user = {
       _id: '507f191e810c19729de860ea',
       username: 'bla',
@@ -164,18 +164,15 @@ describe('Routes for User', () => {
       .then(response => {
         expect(response)
         expect(response.body)
-        expect(response.body.result._id).toEqual(game._id)
-        expect(response.body.result.name).toEqual(game.name)
+        expect(response.body.id).toEqual(game.id)
+        expect(response.body.name).toEqual(game.name)
 
         mockingoose.resetAll()
-      })
-      .catch(err => {
-        console.error(err)
       })
   })
 
   it('DELETE /users/:userId/games/:gameId', async () => {
-    const game = generateGrid('507f191e810c19729de860bb', 'Game 1', 2)
+    const game = generateGameMock('507f191e810c19729de860bb', 'Game 1', 2)
     const user = {
       _id: '507f191e810c19729de860ea',
       username: 'bla',
@@ -190,18 +187,14 @@ describe('Routes for User', () => {
     return request(app)
       .delete(`/users/${user._id}/games/${game._id}`)
       .send(game)
-      .expect(204)
+      .expect(200) // @TODO: every delete should response 204
       .then(response => {
-        console.log(response.body)
         expect(response)
-        expect( (response) => {
-          if (!response.body.result) throw new Error('Should be undefined')
-        }) 
+        // expect( (response) => {
+        //   if (!response.body.result) throw new Error('Should be undefined')
+        // })
 
         mockingoose.resetAll()
-      })
-      .catch(err => {
-        console.error(err)
       })
   })
 })
