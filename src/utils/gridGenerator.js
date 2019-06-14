@@ -1,4 +1,39 @@
-const generateGrid = (id, gameName, size) => {
+
+const EMPTY_MACHINE = 'Empty'
+const DOWN = 'Down'
+
+export const generateGame = (name, { rows, columns }, currency) => {
+  return {
+    name,
+    currency,
+    factory: {
+      dimensions: { n: rows, m: columns },
+      gridValues: generateGrid(rows, columns)
+    }
+  }
+}
+
+export const generateGrid = (rows, columns) => {
+  const grid = []
+  for (let i = 0; i < rows; i++) {
+    const row = []
+    for (let j = 0; j < columns; j++) {
+      row.push({
+        position: { row: i, column: j },
+        machine: {
+          name: EMPTY_MACHINE,
+          type: EMPTY_MACHINE,
+          direction: DOWN,
+        },
+        items: {}
+      })
+    }
+    grid.push(row) 
+  }
+  return grid
+}
+
+export const generateGameMock = (id, gameName, size) => {
   const grid = []
   for (let i = 0; i < size; i++) {
     const row = []
@@ -28,5 +63,3 @@ const generateGrid = (id, gameName, size) => {
     currency: Math.trunc(Math.random() * 20000)
   }
 }
-
-export default generateGrid
