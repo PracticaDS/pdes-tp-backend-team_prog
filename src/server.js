@@ -1,8 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import userRoutes from './routes/user'
-import gameRoutes from './routes/games'
+import initRoutes from './routes'
 
 import './schema/models'
 import { initializeMonitoring } from './monitoring'
@@ -15,12 +14,9 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
-app.use('/user', userRoutes)
-app.use('/users/:userId/games', gameRoutes)
 
-app.get('/', (req, res) => {
-  res.status(200).send('hello')
-})
+// routing init
+initRoutes(app)
 
 if (MONITORING) {
   initializeMonitoring(app)
