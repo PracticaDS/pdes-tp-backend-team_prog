@@ -1,19 +1,26 @@
+version: '2'
 services:
-  node:
-    image: "node:8"
-    user: "node"
-    working_dir: /usr/src/app
-    environment:
-      - NODE_ENV=production
+  back:
+    build: .
+    command: yarn start
     volumes:
-      - ./:/usr/src/app
-    expose:
-      - "8080"
-    command: "yarn start"
-  db:
+      - .:/app/back
+      - /app/back/node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+  mongo:
     image: mongo
-    expose:
-      - "27017"
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+  front:
+    build: .
+    command: yarn start
     volumes:
-      - mongodata:/data/db
-    
+      - .:/app/front
+      - /app/front/node_modules
+    ports:
+      - "3000:3000"

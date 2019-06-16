@@ -1,7 +1,7 @@
 FROM node:8
 
 # Directory
-ARG APP_DIR=app
+ARG APP_DIR=app/back
 
 RUN mkdir -p ${APP_DIR}
 
