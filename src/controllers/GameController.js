@@ -1,23 +1,23 @@
 import GameService from '../services/GameService'
-import GenericController from './GenericController'
+import CrudController from './CrudController'
 
-class GameController extends GenericController {
+class GameController extends CrudController {
   constructor(logger){
     super(new GameService(), logger)
   }
-  parsePOST = (req) => {
+  parsePOST(req) {
     return {
       userId: req.params.userId,
       body: req.body,
     }
   }
-  parseGET = (req) => {
+  parseGET(req) {
     return {
       userId: req.params.userId,
       gameId: req.params.gameId
     }
   }
-  parseALL = (req) => {
+  parseALL(req) {
     return {
       userId: req.params.userId,
     }
