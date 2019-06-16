@@ -1,14 +1,14 @@
 import UserController from '../controllers/UserController'
-import GenericRouter from './GenericRouter'
+import CrudRouter from './CrudRouter'
 
-class UserRouter extends GenericRouter {
+class UserRouter extends CrudRouter {
   constructor(router, logger) {
-    super(router, 'userId', new UserController(), logger)
+    super(router, new UserController(), 'userId', logger)
   }
-  customRoutes = () => {
-    return [
-      { method: 'post', url: '/login', message: 'login' }
-    ]
+  routes() {
+    const routes = super.routes()
+    routes.push({ method: 'post', url: '/login', message: 'login' })
+    return routes
   }
 }
 

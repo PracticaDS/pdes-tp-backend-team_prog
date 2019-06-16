@@ -1,9 +1,9 @@
 import GameController from "../controllers/GameController"
-import GenericRouter from "./GenericRouter"
+import CrudRouter from "./CrudRouter"
 
-class GameRouter extends GenericRouter {
+class GameRouter extends CrudRouter {
   constructor(router, logger) {
-    super(router, 'gameId', new GameController(), logger)
+    super(router, new GameController(), 'gameId', logger)
   }
 }
 

@@ -1,40 +1,37 @@
 import Logger from '../utils/Logger'
 
 class GenericRouter {
-  constructor(router, paramId, controller, logger = new Logger()) {
+  constructor(router, controller, logger = new Logger()) {
+    this._router = router
     this.controller = controller
     this.controller.logger = logger // @TODO: find a better way
-    this.paramId = `:${paramId}`
-    this.router = router
   }
 
-  commonRoutes = () => {
-    return [
-      { method: 'post', url: '/', message: 'create' },
-      { method: 'put', url: `/${this.paramId}`, message: 'update' },
-      { method: 'get', url: '/', message: 'all' },
-      { method: 'get', url: `/${this.paramId}`, message: 'get' },
-      { method: 'delete', url: `/${this.paramId}`, message: 'delete' },
-    ]
-  }
-
-  customRoutes = () => {
+  routes() {
     return []
   }
 
-  getController = () => (this.controller)
+  controller() {
+    return this.controller
+  }
 
-  generateRoutes = () => {
-    const routes = this.commonRoutes().concat(this.customRoutes())
-
+  // @TODO:
+  //  - we don't need to bind fn to the router context because
+  //  - all our controller functions are defined as arrow function
+  //  - otherwise we can do: fn.bind(this)
+  generateRoutes() {
+    const routes = this.routes()
     routes.forEach(({ method, url, message }) => {
-      this.router[method](url, this.controller[message])
+      const fn = this.controller[message]
+      if (fn) {
+        this._router[method](url, fn)
+      }
     })
   }
 
-  getRoutes = () => {
+  router() {
     this.generateRoutes()
-    return this.router
+    return this._router
   }
 }
 
