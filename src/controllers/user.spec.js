@@ -10,7 +10,6 @@ import User from '../schema/user/user'
 import Game from '../schema/game/game'
 import UserRouter from '../routes/UserRouter'
 import GameRouter from '../routes/GameRouter'
-
 import CustomLogger from '../utils/CustomLogger'
 
 describe('Routes for User', () => {
@@ -20,8 +19,8 @@ describe('Routes for User', () => {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
-  app.use('/users', userRouter.getRoutes())
-  app.use('/users/:userId/games', gameRouter.getRoutes())
+  app.use('/users', userRouter.router())
+  app.use('/users/:userId/games', gameRouter.router())
 
   it('POST /users/', async () => {
     const _user = (someUsername) => {

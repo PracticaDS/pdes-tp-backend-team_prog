@@ -1,11 +1,13 @@
-import GenericController from './GenericController'
 import AuthService from '../services/AuthService'
+import CrudController from './CrudController'
 
-class UserController extends GenericController {
+class UserController extends CrudController {
   constructor(logger){
     super(new AuthService(), logger)
   }
-  parseGET = ({ params }) => params.userId
+  parseGET({ params }) {
+    return params.userId
+  }
 
   login = (req, res) => {
     const body = this.parsePOST(req)
