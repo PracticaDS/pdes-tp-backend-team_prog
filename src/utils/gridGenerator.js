@@ -7,7 +7,7 @@ export const generateGame = (name, { rows, columns }, currency) => {
     name,
     currency,
     factory: {
-      dimensions: { n: rows, m: columns },
+      dimensions: { n: columns, m: rows },
       gridValues: generateGrid(rows, columns)
     }
   }
