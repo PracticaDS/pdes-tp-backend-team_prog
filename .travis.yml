@@ -20,4 +20,6 @@ deploy:
   script:
     # push to dockerhub
     docker push teamprogpdes/team-prog-back;
-  branch: dev
+  keep_history: true
+  on:
+    branch: dev
