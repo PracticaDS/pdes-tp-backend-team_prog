@@ -19,5 +19,5 @@ deploy:
   provider: script
   script:
     # push to dockerhub
-    docker push unqpdes/todo-list-back;
+    docker push teamprogpdes/team-prog-back;
   branch: dev
