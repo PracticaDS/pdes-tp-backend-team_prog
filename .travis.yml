@@ -1,4 +1,10 @@
 language: node_js
+sudo: required
+services:
+  - docker
+before_install:
+  # login to docker registries dockerhub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 node_js:
   - '10'
 cache:
@@ -6,4 +12,12 @@ cache:
     - 'node_modules'
 script:
   - yarn test
+    # build docker images
+  - docker build -t teamprogpdes/team-prog-back .
 
+deploy:
+  provider: script
+  script:
+    # push to dockerhub
+    docker push teamprogpdes/team-prog-back;
+  branch: dev
