@@ -1,0 +1,36 @@
+version: '3'
+services:
+  reverse-proxy:
+    image: traefik:1.7.12
+    command: --api --docker
+    ports:
+      - "80:80"     # The HTTP port
+      - "8081:8081" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+  back:
+    image: teamprogpdes/team-prog-back
+    labels:
+      - traefik.frontend.rule=PathPrefix:/api
+    environment: 
+      - NODE_ENV=production
+    volumes:
+      - .:/app/back
+      - /app/back/node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+  front:
+    image: teamprogpdes/team-prog-front
+    labels:
+      - traefik.frontend.rule=PathPrefix:/
+    volumes:
+      - .:/app/front
+      - /app/front/node_modules
+    environment: 
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
