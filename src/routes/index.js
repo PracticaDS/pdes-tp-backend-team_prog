@@ -11,16 +11,16 @@ const userRouter = new UserRouter(Router(), logger)
 const gameRouter = new GameRouter(Router({mergeParams: true}), logger)
 
 const initRoutes = (app) => {
-  app.use('/users', userRouter.router())
-  app.use('/users/:userId/games', gameRouter.router())
+  app.use('/api/users', userRouter.router())
+  app.use('/api/users/:userId/games', gameRouter.router())
 
   if (TEST_ENABLED) {
     const testRouter = new TestRouter(Router(), logger)
-    app.use('/test', testRouter.router())
+    app.use('/api/test', testRouter.router())
   }
 
-  app.get('/', (req, res) => {
-    res.status(200).send('hello')
+  app.get('/api/', (req, res) => {
+    res.status(200).send('ok')
   })
 }
 

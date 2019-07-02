@@ -1,0 +1,28 @@
+version: '3'
+services:
+  reverse-proxy:
+    image: traefik:1.7.12
+    command: --api --docker
+    ports:
+      - "81:80"     # The HTTP port
+      - "8080:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+  mongodb:
+    image: mongo
+  back:
+    image: teamprogpdes/team-prog-back
+    labels:
+      - traefik.frontend.rule=PathPrefix:/api
+    environment: 
+      - NODE_ENV=production
+      - DATABASE_URL=mongodb://mongodb/game
+    ports:
+      - "3001:3001"
+  front:
+    image: teamprogpdes/team-prog-front
+    labels:
+      - traefik.frontend.rule=PathPrefix:/
+    environment: 
+      - NODE_ENV=production
+      - API_URL=http://localhost:3001

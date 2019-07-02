@@ -1,4 +1,4 @@
-FROM node:8
+FROM node:11-alpine
 
 # Directory
 ARG APP_DIR=app/back
@@ -13,13 +13,12 @@ COPY yarn.lock ./
 RUN yarn install
 
 # For production 
-# RUN npm install --production
 
 # Copy project files
 COPY . .
 
 # Expose running port
-EXPOSE 8080
+EXPOSE 3001
 
 # Run the project
 CMD ["yarn", "start"]
