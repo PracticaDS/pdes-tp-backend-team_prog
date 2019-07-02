@@ -6,7 +6,7 @@ import initRoutes from './routes'
 import './schema/models'
 import { initializeMonitoring } from './monitoring'
 
-const DEFAULT_PORT = process.env.PORT || 8080
+const DEFAULT_PORT = process.env.PORT || 3001
 const MONITORING = process.env.MONITORING || false
 
 const app = express()
